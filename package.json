@@ -1,7 +1,7 @@
 {
   "name": "kupipodariday",
   "version": "0.0.1",
-  "description": "",
+  "description": "backend сервиса подарков",
   "author": "Aleksandr Otopkov",
   "private": true,
   "license": "UNLICENSED",

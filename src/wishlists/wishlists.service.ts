@@ -4,7 +4,6 @@ import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from './entities/wishlist.entity';
 import { Repository } from 'typeorm';
-import { WishesService } from 'src/wishes/wishes.service';
 import { Wish } from 'src/wishes/entities/wish.entity';
 
 @Injectable()
@@ -12,19 +11,15 @@ export class WishlistsService {
   constructor(
     @InjectRepository(Wishlist)
     private readonly wishlistsRepository: Repository<Wishlist>,
-    private readonly wishesService: WishesService,
   ) {}
 
   async create(wishlistDTO: CreateWishlistDto) {
-    const items = [];
-    const { image, name } = wishlistDTO;
-    for (const item of wishlistDTO.items) {
-      items.push(await this.wishesService.findOne(item));
-    }
+    const { image, name, items } = wishlistDTO;
+    const itemsId = items?.map(id => ({ id } as Wish)) || []
     return await this.wishlistsRepository.save({
       image,
       name,
-      items,
+      items: itemsId,
     });
   }
 

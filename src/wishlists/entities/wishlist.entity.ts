@@ -4,6 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  IsNull,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,8 +26,10 @@ export class Wishlist {
   @Length(1, 250)
   name: string;
 
-  @Column()
-  @Length(1, 1500)
+  @Column({
+    length: 1500,
+    nullable: true
+  })
   description: string;
 
   @Column()
@@ -33,5 +37,6 @@ export class Wishlist {
   image: string;
 
   @ManyToMany(() => Wish)
+  @JoinTable()
   items: Wish[];
 }

@@ -58,6 +58,6 @@ export class Wish {
   @OneToMany(() => Offer, (offer) => offer.item)
   offers: Offer;
 
-  @Column()
+  @Column({default: 0})
   copied: number;
 }

@@ -62,6 +62,7 @@ export class UsersController {
     return this.wishesServise.findMany('owner', { username });
   }
 
+  @UseGuards(JwtGuard)
   @Post('find')
   findUsers(@Body('query') query: string) {
     return this.usersService.findMany(query);

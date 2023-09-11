@@ -18,8 +18,8 @@ import { JwtGuard } from 'src/auth/jwtGuard';
 export class WishesController {
   constructor(private readonly wishesService: WishesService) {}
 
-  @Post()
   @UseGuards(JwtGuard)
+  @Post()
   create(@Body() wishDTO: CreateWishDto, @Req() req) {
     return this.wishesService.create(wishDTO, req.user);
   }
@@ -34,6 +34,7 @@ export class WishesController {
     return this.wishesService.findByOrder({ copied: 'DESC' }, 20);
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   get(@Param('id') id: number) {
     return this.wishesService.findOne(id);

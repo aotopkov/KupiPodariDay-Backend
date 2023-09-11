@@ -84,7 +84,7 @@ export class WishesService {
       throw new ConflictException();
     }
     wish.owner = user;
-    delete wish.id;
+    // delete wish.id;
     return await this.wishesRepository.save(wish);
   }
 }

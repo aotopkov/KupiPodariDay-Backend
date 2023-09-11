@@ -17,10 +17,10 @@ export class OffersService {
   async create(user: User, createOfferDto: CreateOfferDto) {
     const wish = await this.wishesService.findOne(createOfferDto.id);
     if (user.id === wish.owner.id) {
-      throw new BadRequestException();
+      throw new BadRequestException({message: 'Невозможно поддержать'});
     }
     if (wish.raised + createOfferDto.amount > wish.price) {
-      throw new BadRequestException();
+      throw new BadRequestException({message: 'Невозможно поддержать'});
     }
     await this.wishesService.update(
       wish.id,
