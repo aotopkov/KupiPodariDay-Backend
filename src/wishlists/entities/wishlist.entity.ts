@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  IsNull,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
@@ -28,7 +27,7 @@ export class Wishlist {
 
   @Column({
     length: 1500,
-    nullable: true
+    nullable: true,
   })
   description: string;
 

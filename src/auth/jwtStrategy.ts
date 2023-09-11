@@ -17,7 +17,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate( sub: SignInDTO ) {
+  async validate(sub: SignInDTO) {
     const user = this.userSevice.findByKey('username', sub.username);
 
     if (!user) {

@@ -15,7 +15,7 @@ export class WishlistsService {
 
   async create(wishlistDTO: CreateWishlistDto) {
     const { image, name, items } = wishlistDTO;
-    const itemsId = items?.map(id => ({ id } as Wish)) || []
+    const itemsId = items?.map((id) => ({ id }) as Wish) || [];
     return await this.wishlistsRepository.save({
       image,
       name,
