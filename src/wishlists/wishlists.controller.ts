@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { WishlistsService } from './wishlists.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
@@ -25,8 +26,8 @@ export class WishlistsController {
 
   @UseGuards(JwtGuard)
   @Post()
-  create(@Body() wishlistDTO: CreateWishlistDto) {
-    return this.wishlistsService.create(wishlistDTO);
+  create(@Body() wishlistDTO: CreateWishlistDto, @Req() req) {
+    return this.wishlistsService.create(wishlistDTO, req.user);
   }
 
   @UseGuards(JwtGuard)

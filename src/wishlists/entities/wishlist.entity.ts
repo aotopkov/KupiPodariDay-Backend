@@ -1,4 +1,5 @@
 import { IsUrl, Length } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 import { Wish } from 'src/wishes/entities/wish.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -30,6 +32,9 @@ export class Wishlist {
     nullable: true,
   })
   description: string;
+
+  @ManyToOne(() => User)
+  owner: User;
 
   @Column()
   @IsUrl()

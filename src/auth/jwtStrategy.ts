@@ -3,7 +3,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { UsersService } from 'src/users/users.service';
-import { SignInDTO } from './dto/signin.dto';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -17,8 +16,8 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(sub: SignInDTO) {
-    const user = this.userSevice.findByKey('username', sub.username);
+  async validate(payload) {
+    const user = this.userSevice.findByID(payload);
 
     if (!user) {
       throw new UnauthorizedException();

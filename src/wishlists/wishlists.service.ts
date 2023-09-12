@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from './entities/wishlist.entity';
 import { Repository } from 'typeorm';
 import { Wish } from 'src/wishes/entities/wish.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class WishlistsService {
@@ -13,13 +14,14 @@ export class WishlistsService {
     private readonly wishlistsRepository: Repository<Wishlist>,
   ) {}
 
-  async create(wishlistDTO: CreateWishlistDto) {
+  async create(wishlistDTO: CreateWishlistDto, user: User) {
     const { image, name, items } = wishlistDTO;
     const itemsId = items?.map((id) => ({ id }) as Wish) || [];
     return await this.wishlistsRepository.save({
       image,
       name,
       items: itemsId,
+      owner: user,
     });
   }
 

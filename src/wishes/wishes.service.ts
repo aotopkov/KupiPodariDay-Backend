@@ -3,6 +3,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { UpdateWishDto } from './dto/update-wish.dto';
@@ -23,10 +24,14 @@ export class WishesService {
   }
 
   async findOne(id: number) {
-    return await this.wishesRepository.findOne({
-      relations: { owner: true, offers: { user: true } },
+    if (!id) {
+      throw new NotFoundException('нет подарка');
+    }
+    const wish = await this.wishesRepository.findOne({
+      relations: { owner: true },
       where: { id },
     });
+    return wish;
   }
 
   async findByOrder(order: FindOptionsOrder<Wish>, limit: number) {

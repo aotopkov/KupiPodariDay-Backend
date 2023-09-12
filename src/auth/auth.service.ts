@@ -8,7 +8,6 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -17,14 +16,13 @@ export class AuthService {
     private usersService: UsersService,
   ) {}
 
-  auth(user: User) {
-    const payload = { sub: user.id };
-
+  auth(req) {
+    const payload = req.user.id;
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async validate(username: string, password: string) {
-    const user = await this.usersService.findByKey('username', username);
+  async validatePassword(username: string, password: string) {
+    const user = await this.usersService.findByUsername(username);
     const passwordEqual = await bcrypt.compare(password, user.password);
     if (user && passwordEqual) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

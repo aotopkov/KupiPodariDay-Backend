@@ -21,7 +21,23 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findByKey(key: string, value: string) {
+  async findByID(id: number) {
+    const user = await this.usersRepository.findOne({ where: { id: id } });
+
+    return user;
+  }
+
+  async findByUsername(username) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    return user;
+  }
+
+  async findByKey(key: string, value: any) {
     const user = await this.usersRepository.findOneBy({ [key]: value });
 
     return user;

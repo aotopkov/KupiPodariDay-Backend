@@ -49,7 +49,7 @@ export class Wish {
   })
   raised: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.wishes)
   owner: User;
 
   @Column()
