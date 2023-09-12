@@ -9,6 +9,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
+import { SignInDTO } from './dto/signin.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +18,8 @@ export class AuthService {
     private usersService: UsersService,
   ) {}
 
-  auth(user: User) {
-    const payload = { sub: user.id };
+  auth(user: SignInDTO) {
+    const payload = { sub: user.username };
 
     return { access_token: this.jwtService.sign(payload) };
   }
