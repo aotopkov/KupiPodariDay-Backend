@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   ConflictException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -54,17 +53,7 @@ export class WishesService {
     });
   }
 
-  async update(id: number, wishDTO: UpdateWishDto, userId: number) {
-    const wish = await this.wishesRepository.findOne({
-      relations: { owner: true, offers: true },
-      where: { id },
-    });
-    if (wishDTO.price && wish.raised > 0) {
-      throw new ForbiddenException();
-    }
-    if (wish?.owner?.id !== userId || wish.offers.length) {
-      throw new BadRequestException();
-    }
+  async update(id: number, wishDTO: UpdateWishDto) {
     await this.wishesRepository.update(id, wishDTO);
     return await this.wishesRepository.findBy({ id });
   }

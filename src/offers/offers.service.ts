@@ -15,27 +15,25 @@ export class OffersService {
   ) {}
 
   async create(user: User, createOfferDto: CreateOfferDto) {
-    const wish = await this.wishesService.findOne(createOfferDto.id);
+    const wish = await this.wishesService.findOne(createOfferDto.itemId);
+    const raised = +wish.raised + +createOfferDto.amount;
     if (user.id === wish.owner.id) {
-      throw new BadRequestException({ message: 'Невозможно поддержать' });
+      throw new BadRequestException({
+        message: 'Невозможно поддержать свой подарок',
+      });
     }
-    if (wish.raised + createOfferDto.amount > wish.price) {
-      throw new BadRequestException({ message: 'Невозможно поддержать' });
+    if (raised > wish.price) {
+      throw new BadRequestException({ message: 'Уменьшите взнос' });
     }
-    await this.wishesService.update(
-      wish.id,
-      {
-        raised: wish.raised + createOfferDto.amount,
-      },
-      user.id,
-    );
-    const { id } = await this.offersRepository.save({
+    await this.wishesService.update(wish.id, {
+      raised: raised,
+    });
+    const offer = this.offersRepository.create({
       ...createOfferDto,
       user,
       item: wish,
     });
-
-    return await this.offersRepository.findBy({ id });
+    return await this.offersRepository.save(offer);
   }
 
   async findAll() {
