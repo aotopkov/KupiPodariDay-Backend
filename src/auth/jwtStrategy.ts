@@ -17,7 +17,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
-    const user = this.userSevice.findByID(payload);
+    const user = this.userSevice.findByID(payload.sub);
 
     if (!user) {
       throw new UnauthorizedException();

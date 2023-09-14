@@ -17,9 +17,9 @@ export class AuthService {
     private usersService: UsersService,
   ) {}
 
-  auth(req) {
-    const payload = req.user.id;
-    return { access_token: this.jwtService.sign(payload) };
+  async auth(req) {
+    const payload = {sub: req.user.id};
+    return { access_token: await this.jwtService.signAsync(payload) };
   }
 
   async validatePassword(username: string, password: string) {
